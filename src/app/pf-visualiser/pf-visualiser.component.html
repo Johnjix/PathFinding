@@ -1,0 +1,27 @@
+<div class="container-main">
+  <table class="main-grid">
+    <tr *ngFor="let y of gridRow" class="cell cell-row-{{ y }} ">
+      <td
+        *ngFor="let x of gridCol"
+        class="cell cell-{{ x }}-{{ y }}"
+        id="coord-{{ x }}-{{ y }}"
+        [ngClass]="{
+          'cell-start': CELLS[x + 50 * y].start === true,
+          'cell-end': CELLS[x + 50 * y].end === true,
+          'cell-visited': CELLS[x + 50 * y].visited === true,
+          'cell-path': CELLS[x + 50 * y].path === true
+        }"
+      ></td>
+    </tr>
+  </table>
+
+  <button type="button" class="btn btn-primary" (click)="dijkstra()">
+    Visualise
+  </button>
+  <button type="button" class="btn btn-primary" (click)="resetCells()">
+    Reset Grid
+  </button>
+  <button type="button" class="btn btn-primary" (click)="animateStep()">
+    Step
+  </button>
+</div>

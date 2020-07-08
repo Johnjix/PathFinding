@@ -1,0 +1,30 @@
+.container-main {
+  width: 80%;
+  margin: auto;
+  margin-top: 5%;
+}
+.main-grid {
+  border: solid;
+}
+.cell {
+  background-color: rgba(120, 198, 201, 0.397);
+  height: 20px;
+  width: 20px;
+}
+
+td:hover:nth-child(n) {
+  background-color: indigo;
+}
+
+.cell-end {
+  background-color: red;
+}
+.cell-visited {
+  background-color: hotpink;
+}
+.cell-start {
+  background-color: green;
+}
+.cell-path {
+  background-color: yellow;
+}
