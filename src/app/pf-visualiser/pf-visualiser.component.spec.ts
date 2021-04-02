@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PfVisualiserComponent } from './pf-visualiser.component';
 
@@ -6,7 +6,7 @@ describe('PfVisualiserComponent', () => {
   let component: PfVisualiserComponent;
   let fixture: ComponentFixture<PfVisualiserComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ PfVisualiserComponent ]
     })
