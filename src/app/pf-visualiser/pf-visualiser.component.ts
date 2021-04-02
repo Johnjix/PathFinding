@@ -17,7 +17,7 @@ export class PfVisualiserComponent implements OnInit {
   //cell start coord-15-11
   //cell end coord-35-11
   startingCell: number[] = [15, 11];
-  endingCell: number[] = [20, 11];
+  endingCell: number[] = [45, 11];
   startingCellOneD: number;
   endingCellOneD: number;
 
@@ -324,11 +324,6 @@ export class PfVisualiserComponent implements OnInit {
       this.endingCell[0],
       this.endingCell[1]
     );
-    // this.CELLS.forEach((cell) => {
-    //   cell.visited = false;
-    //   cell.distanceFromStart = Infinity;
-    // });
-    // this.setStartEnd(15, 11, 35, 11);
     this.foundTarget = false;
   }
 
@@ -339,7 +334,7 @@ export class PfVisualiserComponent implements OnInit {
     // console.log(this.exploreOrder[0]);
     var djikstraVisualiser = setInterval(
       () => this.step(djikstraVisualiser),
-      5
+      10
     );
     // if(this.CELLS[this.exploreOrder[0]])
   }

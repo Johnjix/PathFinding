@@ -10,6 +10,7 @@
   background-color: rgba(120, 198, 201, 0.397);
   height: 20px;
   width: 20px;
+  border: solid white 1px;
 }
 
 td:hover:nth-child(n) {
