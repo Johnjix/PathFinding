@@ -3,3 +3,6 @@
 /* @import "~bootstrap/dist/css/bootstrap.css"; */
 /* @import "../node_modules/bootstrap/scss/variables";
 @import "../node_modules/bootstrap/scss/mixins"; */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
