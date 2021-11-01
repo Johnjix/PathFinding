@@ -18,7 +18,7 @@ td:hover:nth-child(n) {
 }
 
 .cell-end {
-  background-color: red;
+  background-color: red !important;
 }
 .cell-end:hover {
   cursor: pointer;
@@ -27,7 +27,7 @@ td:hover:nth-child(n) {
   background-color: hotpink;
 }
 .cell-start {
-  background-color: green;
+  background-color: green !important;
 }
 .cell-start:hover {
   cursor: pointer;

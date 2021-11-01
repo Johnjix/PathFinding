@@ -40,14 +40,15 @@
       ></td>
     </tr>
   </table>
-
-  <button type="button" class="btn btn-primary  mr-1 mt-1" >
+  <div class="row">
+    <div class="col">
+      {{selectedCell |json}}
+    </div>
+  </div>
+  <button type="button" class="btn btn-primary  mr-1 mt-1" (click)="visualiseDijkstra()">
     Visualise
   </button>
-  <button type="button" class="btn btn-danger mr-1 mt-1">
+  <button type="button" class="btn btn-danger mr-1 mt-1" (click)="resetGrid()">
     Reset Grid
-  </button>
-  <button type="button" class="btn btn-info mt-1">
-    Step
   </button>
 </div>
