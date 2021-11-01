@@ -1,27 +1,53 @@
-<div class="container-main">
+<div class="container-fluid">
+  <div class="row mb-2">
+    <div class="col">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            Rows
+          </div>
+        </div>
+        <input class="form-control" type="number" [(ngModel)]="maxRow" (ngModelChange)="generateGrid()">
+      </div>
+    </div>
+    <div class="col">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            Columns
+          </div>
+        </div>
+        <input class="form-control" type="number" [(ngModel)]="maxCol" (ngModelChange)="generateGrid()">
+      </div>
+    </div>
+  </div>
   <table class="main-grid">
-    <tr *ngFor="let y of gridRow" class="cell cell-row-{{ y }} ">
+    <tr *ngFor="let y of gridRow" class="cell cell-row-{{ y }} " cdkDropList>
       <td
         *ngFor="let x of gridCol"
         class="cell cell-{{ x }}-{{ y }}"
         id="coord-{{ x }}-{{ y }}"
         [ngClass]="{
-          'cell-start': CELLS[x + 50 * y].start === true,
-          'cell-end': CELLS[x + 50 * y].end === true,
-          'cell-visited': CELLS[x + 50 * y].visited === true,
-          'cell-path': CELLS[x + 50 * y].path === true
+          'cell-start': CELLS[x + maxCol * y].start === true,
+          'cell-end': CELLS[x + maxCol * y].end === true,
+          'cell-visited': CELLS[x + maxCol * y].visited === true,
+          'cell-path': CELLS[x + maxCol * y].path === true
         }"
+        cdkDrag
+        cdkDragBoundary=".main-grid"
+        (mousedown)="drag(x, y)"
+        (mouseup)="drop(x, y)"
       ></td>
     </tr>
   </table>
 
-  <button type="button" class="btn btn-primary  mr-1 mt-1" (click)="dijkstra()">
+  <button type="button" class="btn btn-primary  mr-1 mt-1" >
     Visualise
   </button>
-  <button type="button" class="btn btn-danger mr-1 mt-1" (click)="resetCells()">
+  <button type="button" class="btn btn-danger mr-1 mt-1">
     Reset Grid
   </button>
-  <button type="button" class="btn btn-info mt-1" (click)="animateStep()">
+  <button type="button" class="btn btn-info mt-1">
     Step
   </button>
 </div>

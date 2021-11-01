@@ -20,11 +20,17 @@ td:hover:nth-child(n) {
 .cell-end {
   background-color: red;
 }
+.cell-end:hover {
+  cursor: pointer;
+}
 .cell-visited {
   background-color: hotpink;
 }
 .cell-start {
   background-color: green;
+}
+.cell-start:hover {
+  cursor: pointer;
 }
 .cell-path {
   background-color: yellow;
