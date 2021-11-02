@@ -32,6 +32,9 @@ td:hover:nth-child(n) {
 .cell-start:hover {
   cursor: pointer;
 }
+.cell-wall {
+  background-color: #3e2723;
+}
 .cell-path {
   background-color: yellow;
 }

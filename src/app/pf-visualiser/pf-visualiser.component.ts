@@ -19,6 +19,8 @@ export class PfVisualiserComponent implements OnInit {
   startingCell: CellCoordinates;
   endingCell: CellCoordinates;
   path: cellState[];
+  mouseDown: boolean;
+  loading: boolean;
 
   constructor() {
     this.gridRow = [];
@@ -43,11 +45,14 @@ export class PfVisualiserComponent implements OnInit {
       start: false,
       end: false,
       visited: false,
+      wall: false,
       path: false,
       distanceFromStart: Infinity,
       previousCell: null,
     };
     this.path = [];
+    this.mouseDown = false;
+    this.loading = false;
   }
 
   ngOnInit() {
@@ -100,6 +105,7 @@ export class PfVisualiserComponent implements OnInit {
         start: false,
         end: false,
         visited: false,
+        wall: false,
         path: false,
         distanceFromStart: Infinity,
         previousCell: null,
@@ -108,28 +114,62 @@ export class PfVisualiserComponent implements OnInit {
   }
 
   drag(x: number, y: number): void {
-    let cellId: number = x + this.maxCol * y;
+    let cell: cellState = this.CELLS[x + this.maxCol * y];
     console.log("down", x, y);
-    this.selectedCell = this.CELLS[cellId];
+    this.selectedCell = cell;
+    if (!this.selectedCell.start && !this.selectedCell.end) {
+      this.mouseDown = true;
+      this.selectedCell.wall = !this.selectedCell.wall;
+    }
   }
   drop(x: number, y: number): void {
+    this.mouseDown = false;
     console.log("up", x, y);
-    let cellId: number = x + this.maxCol * y;
-    if (this.selectedCell.start && this.selectedCell.cellId != cellId) {
+    let cell: cellState = this.CELLS[x + this.maxCol * y];
+    if (this.selectedCell.start && this.selectedCell.cellId != cell.cellId) {
       this.CELLS[x + this.maxCol * y].start = true;
       this.CELLS[x + this.maxCol * y].distanceFromStart = 0;
 
       this.selectedCell.start = false;
       this.selectedCell.distanceFromStart = Infinity;
-    } else if (this.selectedCell.end && this.selectedCell.cellId != cellId) {
+
+      // Update starting cell
+      this.startingCell = this.CELLS[x + this.maxCol * y];
+    } else if (
+      this.selectedCell.end &&
+      this.selectedCell.cellId != cell.cellId
+    ) {
       this.CELLS[x + this.maxCol * y].end = true;
 
       this.selectedCell.end = false;
+
+      // Update ending cell
+      this.endingCell = this.CELLS[x + this.maxCol * y];
+    }
+  }
+  addWall(x: number, y: number): void {
+    let cell: cellState = this.CELLS[x + this.maxCol * y];
+
+    if (this.mouseDown && !cell.start && !cell.end) {
+      cell.wall = !cell.wall;
+    }
+  }
+  eraseWall(x: number, y: number, e: MouseEvent): void {
+    e.preventDefault();
+    console.log(e);
+    let cell: cellState = this.CELLS[x + this.maxCol * y];
+
+    if (this.mouseDown && cell.wall) {
+      cell.wall = false;
     }
   }
 
   visualiseDijkstra(): void {
-    let unvisited: cellState[] = this.CELLS.filter((c) => !c.visited);
+    this.loading = true;
+
+    let unvisited: cellState[] = this.CELLS.filter(
+      (c) => !c.visited && !c.wall
+    );
     let endCellId: number = this.CELLS.findIndex((c) => c.end);
     let currentCell: cellState | undefined = unvisited
       .sort((a, b) => a.distanceFromStart - b.distanceFromStart)
@@ -155,6 +195,18 @@ export class PfVisualiserComponent implements OnInit {
         // Right neighbor
         this.neighborCellUpdate(currentCell, unvisited, 1, 0);
 
+        // Bottom Left neighbor
+        // this.neighborCellUpdate(currentCell, unvisited, -1, -1);
+
+        // Top Right neighbor
+        // this.neighborCellUpdate(currentCell, unvisited, 1, 1);
+
+        // Top Left neighbor
+        // this.neighborCellUpdate(currentCell, unvisited, -1, 1);
+
+        // Bottom Right neighbor
+        // this.neighborCellUpdate(currentCell, unvisited, 1, -1);
+
         // Set current cell to visited
         currentCell.visited = true;
       }
@@ -168,7 +220,7 @@ export class PfVisualiserComponent implements OnInit {
         this.tracePath();
         clearInterval(interval);
       }
-    }, 5);
+    }, 10);
   }
 
   coordToCellId(
@@ -203,17 +255,22 @@ export class PfVisualiserComponent implements OnInit {
       neighborCellId != null &&
       unvisited.includes(this.CELLS[neighborCellId])
     ) {
-      let neighor: cellState = this.CELLS[neighborCellId];
+      let neighbor: cellState = this.CELLS[neighborCellId];
 
       // Adjust distance from start
-      let altDistance: number = currentCell.distanceFromStart + 1;
-
+      // let changeInX: number = neighbor.xCoord - this.startingCell.xCoord;
+      // let changeInY: number = neighbor.yCoord - this.startingCell.yCoord;
+      // Math.sqrt(
+      //   changeInX * changeInX + changeInY * changeInY
+      // );
       // Update distance again if shorter one is found
-      if (altDistance < neighor.distanceFromStart) {
-        neighor.distanceFromStart = altDistance;
+      let altDistance: number = currentCell.distanceFromStart + 1; // using this simple distance for artistic triangular effect
+
+      if (altDistance < neighbor.distanceFromStart) {
+        neighbor.distanceFromStart = altDistance;
 
         // Update previous cell to track for path
-        neighor.previousCell = currentCell.cellId;
+        neighbor.previousCell = currentCell.cellId;
       }
     }
   }
@@ -243,6 +300,7 @@ export class PfVisualiserComponent implements OnInit {
 
       index++;
       if (index == this.path.length) {
+        this.loading = false;
         clearInterval(interval);
       }
     }, 50);
@@ -262,34 +320,11 @@ export class PfVisualiserComponent implements OnInit {
 
     this.setStartEnd(this.startingCell, this.endingCell);
   }
+  clearGrid(): void {
+    this.resetGrid();
+
+    this.CELLS.forEach((cell) => {
+      cell.wall = false;
+    });
+  }
 }
-
-// if (currentCell) {
-//   // Top neighbor
-//   let topNeighborCellId: number | null = this.coordToCellId(
-//     currentCell.xCoord,
-//     currentCell.yCoord + 1
-//   );
-//   if (
-//     topNeighborCellId &&
-//     unvisited.includes(this.CELLS[topNeighborCellId])
-//   ) {
-//     let topNeighor: cellState = this.CELLS[topNeighborCellId];
-
-//     // Adjust distance from start
-//     let altDistance: number = currentCell.distanceFromStart + 1;
-
-//     // Update distance again if shorter one is found
-//     if (altDistance < topNeighor.distanceFromStart) {
-//       topNeighor.distanceFromStart = altDistance;
-
-//       // Update previous cell to track for path
-//       topNeighor.previousCell = currentCell.cellId;
-//     }
-//   }
-//   // Bottom neighbor
-
-//   // Left neighbor
-
-//   // Right neighbor
-// }

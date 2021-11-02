@@ -28,27 +28,32 @@
         class="cell cell-{{ x }}-{{ y }}"
         id="coord-{{ x }}-{{ y }}"
         [ngClass]="{
-          'cell-start': CELLS[x + maxCol * y].start === true,
-          'cell-end': CELLS[x + maxCol * y].end === true,
-          'cell-visited': CELLS[x + maxCol * y].visited === true,
-          'cell-path': CELLS[x + maxCol * y].path === true
+          'cell-start': CELLS[x + maxCol * y].start,
+          'cell-end': CELLS[x + maxCol * y].end,
+          'cell-visited': CELLS[x + maxCol * y].visited,
+          'cell-path': CELLS[x + maxCol * y].path,
+          'cell-wall': CELLS[x + maxCol * y].wall
         }"
         cdkDrag
         cdkDragBoundary=".main-grid"
         (mousedown)="drag(x, y)"
         (mouseup)="drop(x, y)"
+        (mouseenter)="addWall(x, y)"
       ></td>
     </tr>
   </table>
   <div class="row">
     <div class="col">
-      {{selectedCell |json}}
+      <!-- {{selectedCell |json}} -->
     </div>
   </div>
-  <button type="button" class="btn btn-primary  mr-1 mt-1" (click)="visualiseDijkstra()">
+  <button [disabled]="loading" type="button" class="btn btn-primary  mr-1 mt-1" (click)="visualiseDijkstra()">
     Visualise
   </button>
-  <button type="button" class="btn btn-danger mr-1 mt-1" (click)="resetGrid()">
+  <button [disabled]="loading" type="button" class="btn btn-warning mr-1 mt-1" (click)="resetGrid()">
     Reset Grid
+  </button>
+  <button [disabled]="loading" type="button" class="btn btn-danger mr-1 mt-1" (click)="clearGrid()">
+    Clear Grid
   </button>
 </div>

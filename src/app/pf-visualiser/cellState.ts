@@ -5,6 +5,7 @@ export interface cellState {
   cellIdstr: string;
   start: boolean;
   end: boolean;
+  wall: boolean;
   visited: boolean;
   path: boolean;
   distanceFromStart: number;
