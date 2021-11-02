@@ -7,7 +7,7 @@
             Rows
           </div>
         </div>
-        <input [disabled]="loading" class="form-control" type="number" [(ngModel)]="maxRow" (ngModelChange)="generateGrid()">
+        <input [disabled]="loading" min="12"  class="form-control" type="number"  [(ngModel)]="maxRow" (ngModelChange)="generateGrid()">
       </div>
     </div>
     <div class="col">
@@ -17,7 +17,7 @@
             Columns
           </div>
         </div>
-        <input [disabled]="loading" class="form-control" type="number" [(ngModel)]="maxCol" (ngModelChange)="generateGrid()">
+        <input [disabled]="loading" min="46" class="form-control" type="number" [(ngModel)]="maxCol" (ngModelChange)="generateGrid()">
       </div>
     </div>
   </div>
