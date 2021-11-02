@@ -71,6 +71,9 @@ export class PfVisualiserComponent implements OnInit {
 
     // Set Start and End Nodes
     this.setStartEnd(this.startingCell, this.endingCell);
+
+    // Clear grid
+    this.clearGrid();
   }
 
   // Function to Initialise Grid Properties
@@ -115,7 +118,6 @@ export class PfVisualiserComponent implements OnInit {
 
   drag(x: number, y: number): void {
     let cell: cellState = this.CELLS[x + this.maxCol * y];
-    console.log("down", x, y);
     this.selectedCell = cell;
     if (!this.selectedCell.start && !this.selectedCell.end) {
       this.mouseDown = true;
@@ -124,7 +126,6 @@ export class PfVisualiserComponent implements OnInit {
   }
   drop(x: number, y: number): void {
     this.mouseDown = false;
-    console.log("up", x, y);
     let cell: cellState = this.CELLS[x + this.maxCol * y];
     if (this.selectedCell.start && this.selectedCell.cellId != cell.cellId) {
       this.CELLS[x + this.maxCol * y].start = true;
