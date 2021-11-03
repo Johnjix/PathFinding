@@ -119,6 +119,13 @@ export class PfVisualiserComponent implements OnInit {
   drag(x: number, y: number): void {
     let cell: cellState = this.CELLS[x + this.maxCol * y];
     this.selectedCell = cell;
+
+    if (
+      this.CELLS[this.endingCell.xCoord + this.maxCol * this.endingCell.yCoord]
+        .visited
+    ) {
+      this.resetGrid();
+    }
     if (!this.selectedCell.start && !this.selectedCell.end) {
       this.mouseDown = true;
       this.selectedCell.wall = !this.selectedCell.wall;
@@ -196,18 +203,6 @@ export class PfVisualiserComponent implements OnInit {
         // Right neighbor
         this.neighborCellUpdate(currentCell, unvisited, 1, 0);
 
-        // Bottom Left neighbor
-        // this.neighborCellUpdate(currentCell, unvisited, -1, -1);
-
-        // Top Right neighbor
-        // this.neighborCellUpdate(currentCell, unvisited, 1, 1);
-
-        // Top Left neighbor
-        // this.neighborCellUpdate(currentCell, unvisited, -1, 1);
-
-        // Bottom Right neighbor
-        // this.neighborCellUpdate(currentCell, unvisited, 1, -1);
-
         // Set current cell to visited
         currentCell.visited = true;
       }
@@ -221,7 +216,7 @@ export class PfVisualiserComponent implements OnInit {
         this.tracePath();
         clearInterval(interval);
       }
-    }, 10);
+    }, 5);
   }
 
   coordToCellId(
@@ -259,11 +254,9 @@ export class PfVisualiserComponent implements OnInit {
       let neighbor: cellState = this.CELLS[neighborCellId];
 
       // Adjust distance from start
-      // let changeInX: number = neighbor.xCoord - this.startingCell.xCoord;
-      // let changeInY: number = neighbor.yCoord - this.startingCell.yCoord;
-      // Math.sqrt(
-      //   changeInX * changeInX + changeInY * changeInY
-      // );
+      let changeInX: number = neighbor.xCoord - currentCell.xCoord;
+      let changeInY: number = neighbor.yCoord - currentCell.yCoord;
+
       // Update distance again if shorter one is found
       let altDistance: number = currentCell.distanceFromStart + 1; // using this simple distance for artistic triangular effect
 
@@ -328,4 +321,10 @@ export class PfVisualiserComponent implements OnInit {
       cell.wall = false;
     });
   }
+  // testCell = {} as cellState;
+  // test(x: number, y: number, e: MouseEvent): void {
+  //   e.preventDefault();
+  //   console.log(this.CELLS[x + this.maxCol * y]);
+  //   this.testCell = this.CELLS[x + this.maxCol * y];
+  // }
 }
