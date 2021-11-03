@@ -8,8 +8,8 @@
 }
 .cell {
   background-color: rgba(120, 198, 201, 0.397);
-  height: 20px;
-  width: 20px;
+  height: 30px;
+  width: 30px;
   border: solid white 1px;
 }
 
@@ -18,14 +18,85 @@ td:hover:nth-child(n) {
 }
 
 .cell-end {
-  background-color: red;
+  background-color: red !important;
+}
+.cell-end:hover {
+  cursor: pointer;
 }
 .cell-visited {
   background-color: hotpink;
+  animation-name: visitedAnimation;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
 }
 .cell-start {
-  background-color: green;
+  background-color: green !important;
+}
+.cell-start:hover {
+  cursor: pointer;
+}
+.cell-wall {
+  background-color: #3e2723;
+  transform: scale(1);
 }
 .cell-path {
   background-color: yellow;
+  animation-name: shortestPath;
+  animation-duration: 0.75s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+}
+.cell-current {
+  background-color: yellow;
+}
+
+/* Keyframes */
+@keyframes visitedAnimation {
+  0% {
+    transform: scale(0.3);
+    background-color: rgba(0, 0, 66, 0.75);
+    border-radius: 100%;
+  }
+
+  50% {
+    background-color: rgba(17, 104, 217, 0.75);
+  }
+
+  75% {
+    transform: scale(1.2);
+    background-color: rgba(0, 217, 159, 0.75);
+  }
+
+  100% {
+    transform: scale(0.93);
+    background-color: hotpink;
+  }
+}
+
+@keyframes shortestPath {
+  0% {
+    transform: scale(0.6);
+    background-color: #c6ff00;
+    box-shadow: 0 0 30px 20px yellow;
+  }
+
+  50% {
+    transform: scale(1.2);
+    background-color: #76ff03;
+    box-shadow: 0 0 10px 2px yellow;
+  }
+
+  100% {
+    transform: scale(1);
+    background-color: rgb(255, 254, 106);
+  }
 }
