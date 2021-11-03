@@ -128,8 +128,13 @@
               "devServerTarget": "Pathfinding-Visualiser:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "Pathfinding-Visualiser"
 }
