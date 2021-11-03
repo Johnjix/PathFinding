@@ -25,7 +25,7 @@ td:hover:nth-child(n) {
 }
 .cell-visited {
   background-color: hotpink;
-  animation-name: visitedAnimation, neon6;
+  animation-name: visitedAnimation;
   animation-duration: 1.5s;
   animation-timing-function: ease-out;
   animation-delay: 0;
@@ -98,16 +98,5 @@ td:hover:nth-child(n) {
   100% {
     transform: scale(1);
     background-color: rgb(255, 254, 106);
-  }
-}
-
-@keyframes neon6 {
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #ff00de,
-      0 0 70px #ff00de, 0 0 80px #ff00de, 0 0 100px #ff00de, 0 0 150px #ff00de;
-  }
-  to {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff00de,
-      0 0 35px #ff00de, 0 0 40px #ff00de, 0 0 50px #ff00de, 0 0 75px #ff00de;
   }
 }
