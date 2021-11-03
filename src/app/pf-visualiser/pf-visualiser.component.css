@@ -25,7 +25,7 @@ td:hover:nth-child(n) {
 }
 .cell-visited {
   background-color: hotpink;
-  animation-name: visitedAnimation;
+  animation-name: visitedAnimation, neon6;
   animation-duration: 1.5s;
   animation-timing-function: ease-out;
   animation-delay: 0;
@@ -33,7 +33,6 @@ td:hover:nth-child(n) {
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
   animation-play-state: running;
-  border: solid white 1px !important;
 }
 .cell-start {
   background-color: green !important;
@@ -80,7 +79,6 @@ td:hover:nth-child(n) {
   100% {
     transform: scale(0.93);
     background-color: hotpink;
-    border: 1px solid white !important;
   }
 }
 
@@ -88,15 +86,28 @@ td:hover:nth-child(n) {
   0% {
     transform: scale(0.6);
     background-color: #c6ff00;
+    box-shadow: 0 0 30px 20px yellow;
   }
 
   50% {
     transform: scale(1.2);
     background-color: #76ff03;
+    box-shadow: 0 0 10px 2px yellow;
   }
 
   100% {
     transform: scale(1);
     background-color: rgb(255, 254, 106);
+  }
+}
+
+@keyframes neon6 {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #ff00de,
+      0 0 70px #ff00de, 0 0 80px #ff00de, 0 0 100px #ff00de, 0 0 150px #ff00de;
+  }
+  to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff00de,
+      0 0 35px #ff00de, 0 0 40px #ff00de, 0 0 50px #ff00de, 0 0 75px #ff00de;
   }
 }
