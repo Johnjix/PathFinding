@@ -1,5 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { Component, OnInit } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
 import { CellCoordinates } from "../models/cell-coordinates";
 import { cellState, cellNeighbors } from "./cellState";
 
@@ -19,10 +20,11 @@ export class PfVisualiserComponent implements OnInit {
   startingCell: CellCoordinates;
   endingCell: CellCoordinates;
   path: cellState[];
+  pathImpossible: boolean;
   mouseDown: boolean;
   loading: boolean;
 
-  constructor() {
+  constructor(private _toastrService: ToastrService) {
     this.gridRow = [];
     this.gridCol = [];
     this.maxRow = 25;
@@ -53,6 +55,7 @@ export class PfVisualiserComponent implements OnInit {
     this.path = [];
     this.mouseDown = false;
     this.loading = false;
+    this.pathImpossible = false;
   }
 
   ngOnInit() {
@@ -212,7 +215,10 @@ export class PfVisualiserComponent implements OnInit {
         .shift();
 
       // Clear interval
-      if (this.CELLS[endCellId].visited) {
+      if (
+        this.CELLS[endCellId].visited ||
+        currentCell?.distanceFromStart == Infinity
+      ) {
         this.tracePath();
         clearInterval(interval);
       }
@@ -288,20 +294,42 @@ export class PfVisualiserComponent implements OnInit {
 
     // Reverse path
     this.path.reverse();
-    let index: number = 0;
-    let interval = setInterval(() => {
-      this.path[index].path = true;
+    if (
+      this.path[0] ==
+      this.CELLS[
+        this.startingCell.xCoord + this.maxCol * this.startingCell.yCoord
+      ]
+    ) {
+      // Animate path
+      let index: number = 0;
+      let interval = setInterval(() => {
+        this.path[index].path = true;
 
-      index++;
-      if (index == this.path.length) {
-        this.loading = false;
-        clearInterval(interval);
-      }
-    }, 50);
+        index++;
+        if (index == this.path.length) {
+          this.loading = false;
+
+          // Path finding success
+          this._toastrService.success("😤👌", "", {
+            timeOut: 1000,
+          });
+          clearInterval(interval);
+        }
+      }, 50);
+    } else {
+      // Path finding failed, alert user
+      this._toastrService.error("Pathing impossible! 🙅‍♀️", "", {
+        disableTimeOut: true,
+      });
+      this.pathImpossible = true;
+
+      this.loading = false;
+    }
   }
 
   resetGrid(): void {
     this.path = [];
+    this.pathImpossible = false;
 
     this.CELLS.forEach((cell, index) => {
       this.CELLS[index].visited = false;

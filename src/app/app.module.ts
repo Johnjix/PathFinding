@@ -8,6 +8,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule } from "@angular/forms";
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { ToastrModule } from "ngx-toastr";
 
 @NgModule({
   declarations: [AppComponent, PfVisualiserComponent],
@@ -18,6 +19,7 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
     BrowserAnimationsModule,
     FormsModule,
     DragDropModule,
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

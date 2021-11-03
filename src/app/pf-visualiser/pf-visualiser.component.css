@@ -43,6 +43,7 @@ td:hover:nth-child(n) {
 }
 .cell-wall {
   background-color: #3e2723;
+  transform: scale(1);
 }
 .cell-path {
   background-color: yellow;

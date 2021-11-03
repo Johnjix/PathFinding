@@ -47,7 +47,7 @@
       <!-- {{testCell |json}} -->
     </div>
   </div>
-  <button [disabled]="loading || CELLS[endingCell.xCoord + maxCol*endingCell.yCoord].visited" type="button" class="btn btn-primary  mr-1 mt-1" (click)="visualiseDijkstra()">
+  <button [disabled]="loading || CELLS[endingCell.xCoord + maxCol*endingCell.yCoord].visited || pathImpossible" type="button" class="btn btn-primary  mr-1 mt-1" (click)="visualiseDijkstra()">
     Visualise
   </button>
   <button [disabled]="loading" type="button" class="btn btn-warning mr-1 mt-1" (click)="resetGrid()">
