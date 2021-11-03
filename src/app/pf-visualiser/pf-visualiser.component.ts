@@ -23,6 +23,7 @@ export class PfVisualiserComponent implements OnInit {
   pathImpossible: boolean;
   mouseDown: boolean;
   loading: boolean;
+  currentCell: cellState | undefined;
 
   constructor(private _toastrService: ToastrService) {
     this.gridRow = [];
@@ -56,6 +57,7 @@ export class PfVisualiserComponent implements OnInit {
     this.mouseDown = false;
     this.loading = false;
     this.pathImpossible = false;
+    this.currentCell = undefined;
   }
 
   ngOnInit() {
@@ -182,7 +184,7 @@ export class PfVisualiserComponent implements OnInit {
       (c) => !c.visited && !c.wall
     );
     let endCellId: number = this.CELLS.findIndex((c) => c.end);
-    let currentCell: cellState | undefined = unvisited
+    this.currentCell = unvisited
       .sort((a, b) => a.distanceFromStart - b.distanceFromStart)
       .shift();
     this.path.push(this.CELLS[endCellId]);
@@ -193,31 +195,31 @@ export class PfVisualiserComponent implements OnInit {
 
       // console.log("currentNode", currentCell);
 
-      if (currentCell) {
+      if (this.currentCell) {
         // Top neighbor
-        this.neighborCellUpdate(currentCell, unvisited, 0, -1);
+        this.neighborCellUpdate(this.currentCell, unvisited, 0, -1);
 
         // Bottom neighbor
-        this.neighborCellUpdate(currentCell, unvisited, 0, 1);
+        this.neighborCellUpdate(this.currentCell, unvisited, 0, 1);
 
         // Left neighbor
-        this.neighborCellUpdate(currentCell, unvisited, -1, 0);
+        this.neighborCellUpdate(this.currentCell, unvisited, -1, 0);
 
         // Right neighbor
-        this.neighborCellUpdate(currentCell, unvisited, 1, 0);
+        this.neighborCellUpdate(this.currentCell, unvisited, 1, 0);
 
         // Set current cell to visited
-        currentCell.visited = true;
+        this.currentCell.visited = true;
       }
       // Update current cell
-      currentCell = unvisited
+      this.currentCell = unvisited
         .sort((a, b) => a.distanceFromStart - b.distanceFromStart)
         .shift();
 
       // Clear interval
       if (
         this.CELLS[endCellId].visited ||
-        currentCell?.distanceFromStart == Infinity
+        this.currentCell?.distanceFromStart == Infinity
       ) {
         this.tracePath();
         clearInterval(interval);
@@ -308,7 +310,7 @@ export class PfVisualiserComponent implements OnInit {
         index++;
         if (index == this.path.length) {
           this.loading = false;
-
+          this.currentCell = undefined;
           // Path finding success
           this._toastrService.success("😤👌", "", {
             timeOut: 1000,
@@ -322,6 +324,7 @@ export class PfVisualiserComponent implements OnInit {
         disableTimeOut: true,
       });
       this.pathImpossible = true;
+      this.currentCell = undefined;
 
       this.loading = false;
     }
@@ -330,6 +333,7 @@ export class PfVisualiserComponent implements OnInit {
   resetGrid(): void {
     this.path = [];
     this.pathImpossible = false;
+    this.currentCell = undefined;
 
     this.CELLS.forEach((cell, index) => {
       this.CELLS[index].visited = false;

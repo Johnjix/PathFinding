@@ -32,7 +32,8 @@
           'cell-end': CELLS[x + maxCol * y].end,
           'cell-visited': CELLS[x + maxCol * y].visited,
           'cell-path': CELLS[x + maxCol * y].path,
-          'cell-wall': CELLS[x + maxCol * y].wall
+          'cell-wall': CELLS[x + maxCol * y].wall,
+          'cell-current': x == currentCell?.xCoord && y == currentCell?.yCoord
         }"
         cdkDrag
         cdkDragBoundary=".main-grid"
@@ -44,7 +45,7 @@
   </table>
   <div class="row">
     <div class="col">
-      <!-- {{testCell |json}} -->
+      <!-- {{currentCell |json}} -->
     </div>
   </div>
   <button [disabled]="loading || CELLS[endingCell.xCoord + maxCol*endingCell.yCoord].visited || pathImpossible" type="button" class="btn btn-primary  mr-1 mt-1" (click)="visualiseDijkstra()">

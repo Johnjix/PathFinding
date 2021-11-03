@@ -56,6 +56,9 @@ td:hover:nth-child(n) {
   animation-fill-mode: forwards;
   animation-play-state: running;
 }
+.cell-current {
+  background-color: yellow;
+}
 
 /* Keyframes */
 @keyframes visitedAnimation {
