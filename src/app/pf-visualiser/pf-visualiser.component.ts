@@ -221,6 +221,7 @@ export class PfVisualiserComponent implements OnInit {
         this.CELLS[endCellId].visited ||
         this.currentCell?.distanceFromStart == Infinity
       ) {
+        this.currentCell = undefined;
         this.tracePath();
         clearInterval(interval);
       }
@@ -310,7 +311,6 @@ export class PfVisualiserComponent implements OnInit {
         index++;
         if (index == this.path.length) {
           this.loading = false;
-          this.currentCell = undefined;
           // Path finding success
           this._toastrService.success("😤👌", "", {
             timeOut: 1000,
@@ -324,7 +324,6 @@ export class PfVisualiserComponent implements OnInit {
         disableTimeOut: true,
       });
       this.pathImpossible = true;
-      this.currentCell = undefined;
 
       this.loading = false;
     }
